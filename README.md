@@ -1,34 +1,116 @@
-# Sumador-Restador de 4 Bits en Python
+# Sumador - Restador de 4 Bits en Python
 
-Este repositorio contiene una implementación de un **sumador–restador de 4 bits** utilizando únicamente **puertas lógicas básicas**: AND, OR y NOT. El objetivo es mostrar cómo operaciones complejas, como suma y resta, se pueden construir a partir de bloques simples de lógica digital.
+## Descripción del proyecto
+
+Este proyecto implementa un **sumador y restador de 4 bits** utilizando conceptos básicos de lógica digital, simulados mediante programación en Python.
+
+El sistema permite:
+
+- Realizar la suma de dos números binarios de 4 bits.
+- Realizar la resta de dos números binarios de 4 bits.
+- Manejar el acarreo de salida (carry out).
+- Comprender el funcionamiento interno de un sumador-restador digital.
+
+El objetivo principal del ejercicio es aplicar conceptos de:
+
+- Representación binaria
+- Aritmética binaria
+- Complemento a dos
+- Diseño lógico modular
 
 ---
 
-## 1. Descripción del ejercicio
+## Objetivo del ejercicio
 
-Se nos pidió:
+Diseñar un sistema que simule el comportamiento de un circuito digital capaz de:
 
-- Diseñar un sumador-restador de 4 bits.
-- Usar solo las puertas lógicas AND, OR y NOT.
-- Implementar la funcionalidad de suma y resta controlada por un bit `M`:
-  - `M = 0` → suma
-  - `M = 1` → resta
+- Sumar dos números binarios cuando el modo es `0`.
+- Restar dos números binarios cuando el modo es `1`.
 
-El ejercicio busca que entendamos la **propagación de carry**, el concepto de **complemento a dos** para la resta y cómo las operaciones XOR se pueden construir usando solo AND, OR y NOT.
+Esto se logra utilizando un único circuito lógico (sumador) y modificando la entrada para realizar la resta mediante complemento a dos.
 
 ---
 
-## 2. Diseño del sumador-restador
+## Conceptos utilizados
 
-### 2.1 Representación de los bits
+### Bit
+Unidad mínima de información digital que puede tomar el valor de:
 
-Se usan listas de 4 bits de **menos significativo a más significativo**:
+- `0`
+- `1`
 
-```text
-A = [A0, A1, A2, A3]
-B = [B0, B1, B2, B3]
-A0 / B0 → bit menos significativo (LSB)
-A3 / B3 → bit más significativo (MSB)
-```
+### MSB y LSB
 
+- **MSB (Most Significant Bit)**: Bit más significativo, ubicado a la izquierda.
+- **LSB (Least Significant Bit)**: Bit menos significativo, ubicado a la derecha.
+
+Ejemplo:
+[1, 0, 1, 1]
+↑ ↑
+MSB LSB
+
+
+El LSB se procesa primero porque es donde inicia la suma binaria.
+
+---
+
+### Complemento a dos
+
+La resta binaria se realiza mediante:
+
+1. Invertir los bits del número a restar.
+2. Sumar 1 al resultado.
+3. Realizar una suma normal.
+
+Esto permite que la resta se implemente usando el mismo circuito sumador.
+
+---
+
+## Diseño del sistema
+
+El diseño sigue la estructura de un **sumador completo (Full Adder)** repetido 4 veces.
+
+Cada etapa recibe:
+
+- Bit de A
+- Bit de B
+- Acarreo de entrada
+
+Y produce:
+
+- Bit resultado
+- Acarreo de salida
+
+### Modo de operación
+
+| Modo | Operación |
+|------|-----------|
+| 0 | Suma |
+| 1 | Resta |
+
+Cuando el modo es 1:
+
+- Los bits de B se invierten.
+- El acarreo inicial se establece en 1.
+
+---
+
+A = 5  -> 0101,
+B = 3  -> 0011
+
+---
+
+Suma: 
+
+0101 + 0011 = 1000
+Resultado: [1,0,0,0]
+Carry: 0
+
+---
+
+Resta:
+
+0101 - 0011 = 0010
+Resultado: [0,0,1,0]
+Carry: 1
 
